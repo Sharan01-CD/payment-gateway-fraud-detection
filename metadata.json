@@ -1,0 +1,6 @@
+{
+  "name": "Aegis Fraud Detection",
+  "description": "Comprehensive payment gateway fraud detection system with preprocessing, multi-model training, and SHAP explainability for academic thesis purposes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
