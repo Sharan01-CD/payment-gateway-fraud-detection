@@ -50,6 +50,21 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- HELPER FUNCTIONS ---
+def st_safe_image(path, caption=None, use_container_width=True):
+    """Safely displays an image or a placeholder if loading fails."""
+    if os.path.exists(path):
+        try:
+            # Check if file is non-empty
+            if os.path.getsize(path) > 0:
+                st.image(path, caption=caption, use_container_width=use_container_width)
+            else:
+                st.warning(f"Image asset {path} is empty.")
+        except Exception as e:
+            st.error(f"Error displaying {path}: {e}")
+            st.info("Try clicking 'Initialize Demo Assets' in the sidebar to fix broken files.")
+    else:
+        st.warning(f"Plot '{path}' not found.")
+
 @st.cache_resource
 def load_models():
     # Paths adjusted for streamlit deployment
@@ -221,7 +236,8 @@ elif menu == "Model Performance":
         st.plotly_chart(fig_roc, use_container_width=True)
     else:
         st.warning("Performance data not found. Showing placeholders.")
-        st.image("roc_comparison.png")
+        st_safe_image("roc_comparison.png", caption="System ROC Baseline")
+        st_safe_image("confusion_matrix.png", caption="Decision Logic Matrix")
 
 elif menu == "Project Thesis":
     st.title("📜 Project Thesis Summary")
